@@ -1,0 +1,9 @@
+Task to build full stack ecommerce application :
+
+1. setup react app with redux template :
+    -> create react app using vite with --template redux :
+    -> install @reduxjs/toolkit react-redux
+    -> setup working redux :
+    -> integrate tailwind :
+    -> setup redux with also asyncthunk :
+    
