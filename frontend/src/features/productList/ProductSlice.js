@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchCount } from "./ProductLIstApi";
-
+import { fetchProducts, fetchProductsFilter } from "./ProductLIstApi";
 
 export const incrementAsync = createAsyncThunk("counter/fetchCount", async (amount) => {
     const response = await fetchCount(amount);
@@ -8,11 +7,20 @@ export const incrementAsync = createAsyncThunk("counter/fetchCount", async (amou
 })
 
 
+export const fetchProductsAsync = createAsyncThunk("productName/fetchProducts", async () => {
+    const response = await fetchProducts();
+    return response.data;
+})
 
-export const CounterSlice = createSlice({
-    name: "counter",
+export const fetchProductsFilterAsync = createAsyncThunk("productName/fetchProductsFilter", async (filter, sort, pagination) => {
+    const response = await fetchProductsFilter(filter, sort, pagination);
+    return response.data
+})
+
+export const ProductSlice = createSlice({
+    name: "productName",
     initialState: {
-        value: 1
+        list: []
     },
     reducers: {
 
@@ -32,11 +40,21 @@ export const CounterSlice = createSlice({
         }).addCase(incrementAsync.fulfilled, (state, action) => {
             state.status = "idle"
             state.value += action.payload
+        }).addCase(fetchProductsAsync.pending, (state) => {
+            state.status = "loading"
+        }).addCase(fetchProductsAsync.fulfilled, (state, action) => {
+            state.status = "idle"
+            state.list = action.payload
+        }).addCase(fetchProductsFilterAsync.pending, (state) => {
+            state.status = "loading"
+        }).addCase(fetchProductsFilterAsync.fulfilled, (state, action) => {
+            state.status = "idle"
+            state.list = action.payload
         })
     }
 
 })
 
-export const { increment, decrement, incrementByAmount } = CounterSlice.actions;
+export const { increment, decrement, incrementByAmount } = ProductSlice.actions;
 
-export default CounterSlice.reducer;
+export default ProductSlice.reducer;
