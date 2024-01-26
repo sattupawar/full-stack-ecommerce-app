@@ -17,7 +17,7 @@ export const fetchProductsFilterAsync = createAsyncThunk("productName/fetchProdu
     return response.data
 })
 
-export const ProductSlice = createSlice({
+export const ProductSlice = createSlice({ 
     name: "productName",
     initialState: {
         list: []

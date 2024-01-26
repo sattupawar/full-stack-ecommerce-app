@@ -300,13 +300,16 @@ const ProductList = () => {
     const newFilter = { _sort: option.sort, _order: option.order };
     setSort(newFilter);
   };
-  const handlePage = ( page) => {
+  const handlePage = (page) => {
+    console.log({ page });
     setPage(page);
   };
+
   useEffect(() => {
-    const pagination = { _page: page, _limit: ItemPerPage };
-    dispatch(fetchProductsFilterAsync({ filter, sort, pagination }));
-  }, [filter, dispatch, sort]);
+     const pagination = { _page: page, _limit: ItemPerPage };
+     console.log("pagination",pagination)
+    dispatch(fetchProductsFilterAsync({ filter, sort,pagination}));
+  }, [dispatch, filter, sort,page]);
 
   return (
     <div>
@@ -317,7 +320,7 @@ const ProductList = () => {
             handleSort={handleSort}
             mobileFiltersOpen={mobileFiltersOpen}
             setMobileFiltersOpen={setMobileFiltersOpen}
-            filterData={filterData}
+            filterData={filterData} 
           />
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -409,7 +412,7 @@ const ProductList = () => {
             </section>
 
             {/* pagination start */}
-            <Pagination handlePage={handlePage} />
+            <Pagination page={page} setPage={setPage} handlePage={handlePage} />
             {/* pagination end */}
           </main>
         </div>
@@ -644,15 +647,18 @@ const Pagination = ({ page, setPage, handlePage, totalItems = 55 }) => {
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </a>
-              {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+              {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
 
-              {Array.from({ length: Math.ceil(totalItems / ItemPerPage) }).map(
-                (el, index) => (
+              {Array.from({ length: Math.ceil(totalItems / ItemPerPage) }).map((el, index) => (
                   <div
                     key={index}
                     onClick={(e) => handlePage(index + 1)}
                     aria-current="page"
-                    className={`relative z-10 cursor-pointer inline-flex items-center ${index+1===page? 'bg-indigo-600 text-white': 'text-gray-400'} px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+                    className={`relative z-10 cursor-pointer inline-flex items-center ${
+                      index + 1 === page
+                        ? "bg-indigo-600 text-white"
+                        : "text-gray-400"
+                    } px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                   >
                     {index + 1}
                   </div>
