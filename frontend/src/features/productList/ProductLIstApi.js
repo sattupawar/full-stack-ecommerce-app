@@ -5,34 +5,25 @@ export function fetchProducts() {
         resolve({ data })
     })
 }
-export function fetchProductsFilter(filter, sort, pagination) {
-    // filter={"category":"smartphone"}
-    // console.log(filter)
+export function fetchProductsFilter(filter) {
+
+    /* here why we used for in loop : because filter : ek object aa raha hain jisme key and value ain :
+       -> agar key and value mujhe extract karna hain from filter object or any object : i want separate key and value : to mujhe for in loop ka use karna padega :
+
+   */
     let queryString = "";
-    for (let key in filter) {   
-        console.log(filter[key])
-        const categoryValue = filter[key]
-        if (categoryValue.length > 0) {
-            const lastCategoryValue = categoryValue[categoryValue.length - 1]
-            queryString += `${key}=${lastCategoryValue}&`
-        }
 
+    //! for loop lagane ka main mahatv ek proper object ki key and value ko access kar sake isliey 
+    for (let key in filter) {
+        queryString += `${key}=${filter[key]}&`
     }
 
-    for (let key in sort) {
-        queryString += `${key}=${sort[key]}&`
-    }
-    console.log("queryString",queryString)  
 
+    console.log("current", filter);
 
-    // console.log("before",queryString)
-    for (let key in pagination) {
-         queryString += `${key}=${pagination[key]}&`
-    }
-    // console.log( "pagination",pagination,queryString)
     return new Promise(async (resolve) => {
         const response = await fetch(`http://localhost:8080/products?` + queryString);
         const data = await response.json()
         resolve({ data })
     })
-}
+}   

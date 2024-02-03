@@ -267,6 +267,8 @@ const filters = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+//! main component :
 const ProductList = () => {
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
@@ -277,40 +279,24 @@ const ProductList = () => {
   const products = useSelector((state) => state.Products.list);
 
   const filterData = (e, section, option) => {
-    console.log(e.target.checked);
-    const newFilter = { ...filter };
-    if (e.target.checked) {
-      if (newFilter[section.id]) {
-        newFilter[section.id].push(option.value);
-      } else {
-        newFilter[section.id] = [option.value];
-      }
-    } else {
-      const index = newFilter[section.id].findIndex(
-        (el) => el === option.value
-      );
-      newFilter[section.id].splice(index, 1);
-    }
+    console.log("from productlist com :", section);
+    console.log("from prodcutlist com :", option);
+    const newFilter = { ...filter, [section.id]: option.value };
     setFilter(newFilter);
-    console.log(filter);
-    // dispatch(fetchProductsFilterAsync(section.id, option.value));
+    dispatch(fetchProductsFilterAsync(newFilter));
+    console.log(section.id, option.value, newFilter);
   };
 
   const handleSort = (option) => {
-    const newFilter = { _sort: option.sort, _order: option.order };
-    setSort(newFilter);
+    console.log("handleSort");
   };
   const handlePage = (page) => {
-    console.log({ page });
-    setPage(page);
+    console.log("handlePage");
   };
 
   useEffect(() => {
-     const pagination = { _page: page, _limit: ItemPerPage };
-     console.log("pagination",pagination)
-    dispatch(fetchProductsFilterAsync({ filter, sort,pagination}));
-  }, [dispatch, filter, sort,page]);
-
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
   return (
     <div>
       <div className="bg-white">
@@ -320,7 +306,7 @@ const ProductList = () => {
             handleSort={handleSort}
             mobileFiltersOpen={mobileFiltersOpen}
             setMobileFiltersOpen={setMobileFiltersOpen}
-            filterData={filterData} 
+            filterData={filterData}
           />
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -649,7 +635,8 @@ const Pagination = ({ page, setPage, handlePage, totalItems = 55 }) => {
               </a>
               {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
 
-              {Array.from({ length: Math.ceil(totalItems / ItemPerPage) }).map((el, index) => (
+              {Array.from({ length: Math.ceil(totalItems / ItemPerPage) }).map(
+                (el, index) => (
                   <div
                     key={index}
                     onClick={(e) => handlePage(index + 1)}

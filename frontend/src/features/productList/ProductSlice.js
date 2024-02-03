@@ -12,12 +12,12 @@ export const fetchProductsAsync = createAsyncThunk("productName/fetchProducts", 
     return response.data;
 })
 
-export const fetchProductsFilterAsync = createAsyncThunk("productName/fetchProductsFilter", async (filter, sort, pagination) => {
-    const response = await fetchProductsFilter(filter, sort, pagination);
+export const fetchProductsFilterAsync = createAsyncThunk("productName/fetchProductsFilter", async (filter) => {
+    const response = await fetchProductsFilter(filter);
     return response.data
 })
 
-export const ProductSlice = createSlice({ 
+export const ProductSlice = createSlice({
     name: "productName",
     initialState: {
         list: []
