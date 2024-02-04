@@ -11,7 +11,7 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductsAsync, fetchProductsFilterAsync } from "./ProductSlice";
+import { fetchProductsFilterAsync } from "./ProductSlice";
 import { ItemPerPage } from "../../app/constants";
 
 const items = [
@@ -277,26 +277,42 @@ const ProductList = () => {
   const dispatch = useDispatch();
 
   const products = useSelector((state) => state.Products.list);
+  const totalItems = useSelector((state) => state.Products.totalItems);
 
   const filterData = (e, section, option) => {
-    console.log("from productlist com :", section);
-    console.log("from prodcutlist com :", option);
-    const newFilter = { ...filter, [section.id]: option.value };
+    //! on server it support multiple server or multiple category option :
+    console.log("checked or not :", e.target.checked);
+    const newFilter = { ...filter };
+    if (e.target.checked) {
+      if (newFilter[section.id]) {
+        newFilter[section.id].push(option.value);
+      } else {
+        newFilter[section.id] = [option.value];
+      }
+    } else {
+      const index = newFilter[section.id].findIndex((el) => el == option.value);
+      newFilter[section.id].splice(index, 1);
+    }
+
+    console.log({ newFilter });
     setFilter(newFilter);
-    dispatch(fetchProductsFilterAsync(newFilter));
-    console.log(section.id, option.value, newFilter);
   };
 
   const handleSort = (option) => {
-    console.log("handleSort");
+    const newSort = { _sort: option.sort, _order: option.order };
+    // setFilter(newSort);
+    console.log({ newSort });
+    setSort(newSort);
   };
+
   const handlePage = (page) => {
-    console.log("handlePage");
+    setPage(page);
   };
 
   useEffect(() => {
-    dispatch(fetchProductsAsync());
-  }, [dispatch]);
+    const pagination = { _page: page, _limit: ItemPerPage };
+    dispatch(fetchProductsFilterAsync({ filter, sort, pagination }));
+  }, [dispatch, filter, sort, page]);
   return (
     <div>
       <div className="bg-white">
@@ -398,7 +414,12 @@ const ProductList = () => {
             </section>
 
             {/* pagination start */}
-            <Pagination page={page} setPage={setPage} handlePage={handlePage} />
+            <Pagination
+              page={page}
+              setPage={setPage}
+              handlePage={handlePage}
+              totalItems={totalItems}
+            />
             {/* pagination end */}
           </main>
         </div>
@@ -592,7 +613,7 @@ const DesktopFilter = ({ handleSort, filterData }) => {
   );
 };
 
-const Pagination = ({ page, setPage, handlePage, totalItems = 55 }) => {
+const Pagination = ({ page, setPage, handlePage, totalItems }) => {
   return (
     <>
       <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
@@ -644,7 +665,7 @@ const Pagination = ({ page, setPage, handlePage, totalItems = 55 }) => {
                     className={`relative z-10 cursor-pointer inline-flex items-center ${
                       index + 1 === page
                         ? "bg-indigo-600 text-white"
-                        : "text-gray-400"
+                        : "text-black"
                     } px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                   >
                     {index + 1}
