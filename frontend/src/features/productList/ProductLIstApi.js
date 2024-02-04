@@ -47,3 +47,17 @@ export function fetchProductsFilter(filter, sort, pagination) {
     })
 }
 
+export function fetchAllProductCategory() {
+    return new Promise(async (resolve) => {
+        const response = await fetch("http://localhost:8080/category");
+        const data = await response.json()
+        resolve({ data })
+    })
+}
+export function fetchAllProductBrands() {
+    return new Promise(async (resolve) => {
+        const response = await fetch("http://localhost:8080/brands");
+        const data = await response.json()
+        resolve({ data })
+    })
+}
