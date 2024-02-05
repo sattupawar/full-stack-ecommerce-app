@@ -11,30 +11,47 @@ import { SignupPage } from "./Pages/SignupPage.jsx";
 import { CartPage } from "./Pages/CartPage.jsx";
 import { CheckoutPage } from "./Pages/CheckoutPage.jsx";
 import { ProductDetailsPage } from "./Pages/ProductDetailsPage.jsx";
+import { ProtectedChild } from "./features/auth/ProtectedChild.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <ProtectedChild>
+        <Home />
+      </ProtectedChild>
+    ),
   },
   {
     path: "/login",
     element: <LoginPage />,
   },
   {
-    path: "/signin",
+    path: "/signup",
     element: <SignupPage />,
   },
   {
     path: "/cart",
-    element: <CartPage />,
+    element: (
+      <ProtectedChild>
+        <CartPage />
+      </ProtectedChild>
+    ),
   },
   {
     path: "/checkout",
-    element: <CheckoutPage />,
+    element: (
+      <ProtectedChild>
+        <CheckoutPage />
+      </ProtectedChild>
+    ),
   },
   {
     path: "/productdetail/:id",
-    element: <ProductDetailsPage />,
+    element: (
+      <ProtectedChild>
+        <ProductDetailsPage />
+      </ProtectedChild>
+    ),
   },
 ]);
 
