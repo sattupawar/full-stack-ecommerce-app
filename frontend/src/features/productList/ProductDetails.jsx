@@ -4,6 +4,9 @@ import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchProductByIdAsync } from "./ProductSlice";
+import { addToBasket } from "../cart/CartApi";
+import { selectLoggedUser } from "../auth/AuthSlice";
+import { addToBasketAsync } from "../cart/CartSlice";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -26,7 +29,6 @@ const highlights = [
   "Pre-washed & pre-shrunk",
   "Ultra-soft 100% cotton",
 ];
-const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -39,6 +41,12 @@ export const ProductDetails = () => {
   const params = useParams();
 
   const product = useSelector((state) => state.Products.selectedProduct);
+  const user = useSelector(selectLoggedUser);
+
+  const handleBasket = (e) => {
+    e.preventDefault();
+    dispatch(addToBasketAsync({ ...product, quantity: 1, user: user.id }));
+  };
 
   //! Todo :in server data we will add colors,sizes etc .
   useEffect(() => {
@@ -284,6 +292,7 @@ export const ProductDetails = () => {
                 </div>
 
                 <button
+                  onClick={handleBasket}
                   type="submit"
                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
@@ -314,7 +323,7 @@ export const ProductDetails = () => {
                     {highlights.map((highlight) => (
                       <li key={highlight} className="text-gray-400">
                         <span className="text-gray-600">{highlight}</span>
-                      </li> 
+                      </li>
                     ))}
                   </ul>
                 </div>

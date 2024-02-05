@@ -7,6 +7,8 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectBasket } from "../cart/CartSlice";
 
 const user = {
   name: "Tom Cook",
@@ -32,6 +34,8 @@ function classNames(...classes) {
 }
 
 export const NavBar = ({ children }) => {
+  const item = useSelector(selectBasket);
+
   return (
     <>
       {/*
@@ -95,9 +99,11 @@ export const NavBar = ({ children }) => {
                           />
                         </button>
                       </Link>
+                      {item.length > 0 && (
                       <span className="inline-flex items-center rounded-md mb-5 -ml-3 z-10 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                        3
+                        {item.length}
                       </span>
+                    )}
 
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
@@ -210,9 +216,11 @@ export const NavBar = ({ children }) => {
                         aria-hidden="true"
                       />
                     </button>
-                    <span className="inline-flex items-center  rounded-md mb-4 -ml-3 z-10 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                      3
-                    </span>
+                    {item.length > 0 && (
+                      <span className="inline-flex items-center rounded-md mb-5 -ml-3 z-10 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                        {item.length}
+                      </span>
+                    )}
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (
