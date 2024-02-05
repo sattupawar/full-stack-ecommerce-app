@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addToBasket, fetchBasketByUserId, updateBasket } from "./CartApi";
+import { addToBasket, deleteBasket, fetchBasketByUserId, updateBasket } from "./CartApi";
 import { fetchProductByIdAsync } from "../productList/ProductSlice";
 
 
@@ -20,6 +20,10 @@ export const fetchBasketByIdAsync = createAsyncThunk("cart/fetchBasketbyId", asy
 
 export const updateBasketAsync = createAsyncThunk("cart/updateBasket", async (update) => {
     const response = await updateBasket(update);
+    return response.data;
+})
+export const deleteBasketAsync = createAsyncThunk("cart/deleteBasket", async (itemId) => {
+    const response = await deleteBasket(itemId);
     return response.data;
 })
 export const CartSlice = createSlice({
@@ -61,8 +65,15 @@ export const CartSlice = createSlice({
         }).addCase(updateBasketAsync.fulfilled, (state, action) => {
             state.status = "idle"
             // index find karna padega :
-            const index = state.items.findIndex(item => item.id == action.payload)
+            const index = state.items.findIndex(item => item.id == action.payload.id)
             state.items[index] = action.payload
+        }).addCase(deleteBasketAsync.pending, (state) => {
+            state.status = "loading"
+        }).addCase(deleteBasketAsync.fulfilled, (state, action) => {
+            state.status = "idle"
+            // index find karna padega :
+            const index = state.items.findIndex(item => item.id == action.payload.id)
+            state.items.splice(index, 1);
         })
     }
 

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { updateBasketAsync } from "./CartSlice";
+import { deleteBasketAsync, updateBasketAsync } from "./CartSlice";
 
 // const products = [
 //   {
@@ -42,6 +42,9 @@ const Cart = () => {
   const handleQuantity = (e, product) => {
     dispatch(updateBasketAsync({ ...product, quantity: +e.target.value }));
   };
+  const handleDeleteItems=(e,id)=>{
+    dispatch(deleteBasketAsync(id))
+  }
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-4 bg-white">
       <div className="mt-4 px-10 py-10">
@@ -79,6 +82,7 @@ const Cart = () => {
                         name=""
                         id=""
                         className="rounded w-15 h-10 "
+                        value={product.quantity}
                       >
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -90,6 +94,7 @@ const Cart = () => {
 
                     <div className="flex">
                       <button
+                        onClick={(e) => handleDeleteItems(e, product.id)}
                         type="button"
                         className="font-medium text-indigo-600 hover:text-indigo-500"
                       >
