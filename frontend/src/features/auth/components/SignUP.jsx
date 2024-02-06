@@ -13,7 +13,7 @@ export const SignUp = () => {
   const createUser = useSelector(selectLoggedUser);
 
   const dispatch = useDispatch();
-  const user = useSelector(selectLoggedUser);
+  const user = useSelector(selectLoggedUser)
 
   console.log(errors);
   return (

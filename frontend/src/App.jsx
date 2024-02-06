@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectLoggedUser } from "./features/auth/AuthSlice.js";
 import { useEffect } from "react";
 import { fetchBasketByIdAsync } from "./features/cart/CartSlice.js";
+import Admin, { AdminPage } from "./Pages/AdminPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedChild>
         <ProductDetailsPage />
+      </ProtectedChild>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <ProtectedChild>
+        <AdminPage />
       </ProtectedChild>
     ),
   },
