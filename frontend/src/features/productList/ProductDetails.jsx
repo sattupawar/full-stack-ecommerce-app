@@ -45,7 +45,11 @@ export const ProductDetails = () => {
 
   const handleBasket = (e) => {
     e.preventDefault();
-    dispatch(addToBasketAsync({ ...product, quantity: 1, user: user.id }));
+
+    const newItems = { ...product, quantity: 1, user: user.id };
+    // delete id from newITems product : ye karne ka main reason jab 2 person ek hee product ko add cart karege to cart api me vo nahi hoga kyonki hum cart ki id nahi bana rahe hain isliye vo cart product ki id use kar raha hain par jab  single user me work karega but multiple user me work nahi kar raha hain isliye hun product me se sara data lega but async function ko disptach karene se pahle usme se product ki id delete kar dega and hamara work done and backend hain vo khud id bana leta hian :
+    delete newItems["id"];
+    dispatch(addToBasketAsync(newItems));
   };
 
   //! Todo :in server data we will add colors,sizes etc .
