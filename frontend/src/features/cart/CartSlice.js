@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addToBasket, deleteBasket, fetchBasketByUserId, updateBasket } from "./CartApi";
+import { addToBasket, deleteAllItemsInBasket, deleteBasket, fetchBasketByUserId, updateBasket } from "./CartApi";
 import { fetchProductByIdAsync } from "../productList/ProductSlice";
 
 
@@ -24,6 +24,11 @@ export const updateBasketAsync = createAsyncThunk("cart/updateBasket", async (up
 })
 export const deleteBasketAsync = createAsyncThunk("cart/deleteBasket", async (itemId) => {
     const response = await deleteBasket(itemId);
+    return response.data;
+})
+
+export const deleteAllItemsInBasketAsync = createAsyncThunk("cart/deleteAllITemsInBasket", async (userid) => {
+    const response = await deleteAllItemsInBasket(userid);
     return response.data;
 })
 export const CartSlice = createSlice({
@@ -74,6 +79,12 @@ export const CartSlice = createSlice({
             // index find karna padega :
             const index = state.items.findIndex(item => item.id == action.payload.id)
             state.items.splice(index, 1);
+        }).addCase(deleteAllItemsInBasketAsync.pending, (state) => {
+            state.status = "loading"
+        }).addCase(deleteAllItemsInBasketAsync.fulfilled, (state, action) => {
+            state.status = "idle"
+            // index find karna padega :
+            state.items.filter(item => item.user == action.payload.id)
         })
     }
 

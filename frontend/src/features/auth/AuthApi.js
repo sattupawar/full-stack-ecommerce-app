@@ -36,3 +36,17 @@ export function checkUser(loginInfo) {
         // ! Todo : on server it will only return relavent informtation  of user (not store the user password)
     })
 }
+
+export function UpdateUser(userData) {
+    return new Promise(async (resolve) => {
+        const response = await fetch("http://localhost:8080/users/" + userData.id, {
+            method: "PATCH",
+            body: JSON.stringify(userData),
+            headers: { "content-type": "application/json" }
+        });
+        const data = await response.json()
+
+        // ! Todo : on server it will only return relavent informtation  of user (not store the user password)
+        resolve({ data })
+    })
+}

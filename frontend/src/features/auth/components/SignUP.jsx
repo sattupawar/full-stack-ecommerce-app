@@ -13,7 +13,7 @@ export const SignUp = () => {
   const createUser = useSelector(selectLoggedUser);
 
   const dispatch = useDispatch();
-  const user = useSelector(selectLoggedUser)
+  const user = useSelector(selectLoggedUser);
 
   console.log(errors);
   return (
@@ -37,7 +37,11 @@ export const SignUp = () => {
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
               dispatch(
-                createUserAsync({ email: data.email, password: data.password })
+                createUserAsync({
+                  email: data.email,
+                  password: data.password,
+                  addresses: [],
+                })
               );
               console.log(data);
             })}

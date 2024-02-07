@@ -55,3 +55,16 @@ export function deleteBasket(itemId) {
         resolve({ data: { id: itemId } })
     })
 }
+
+export function deleteAllItemsInBasket(userid) {
+    return new Promise(async (resolve) => {
+        const response = await fetch("http://localhost:8080/cart?user=" + userid, {
+            method: "DELETE",
+            headers: { "content-type": "application/json" }
+        });
+        const data = await response.json()
+
+        // ! Todo : on server it will only return relavent informtation  of user (not store the user password)
+        resolve({ data })
+    })
+}

@@ -13,6 +13,8 @@ import { selectLoggedUser } from "./features/auth/AuthSlice.js";
 import { useEffect } from "react";
 import { fetchBasketByIdAsync } from "./features/cart/CartSlice.js";
 import Admin, { AdminPage } from "./Pages/AdminPage.jsx";
+import PageNotFound from "./Pages/pageNotFound.jsx";
+import { OrderSuccessPage } from "./Pages/OrderSuccessPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,6 +63,18 @@ const router = createBrowserRouter([
         <AdminPage />
       </ProtectedChild>
     ),
+  },
+  {
+    path: "/order-success/:id",
+    element: (
+      <ProtectedChild>
+        <OrderSuccessPage />
+      </ProtectedChild>
+    ),
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 
