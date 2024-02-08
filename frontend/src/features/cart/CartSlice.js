@@ -27,10 +27,11 @@ export const deleteBasketAsync = createAsyncThunk("cart/deleteBasket", async (it
     return response.data;
 })
 
-export const deleteAllItemsInBasketAsync = createAsyncThunk("cart/deleteAllITemsInBasket", async (userid) => {
+export const resetCart = createAsyncThunk("cart/deleteAllItemsInBasket", async (userid) => {
     const response = await deleteAllItemsInBasket(userid);
     return response.data;
 })
+
 export const CartSlice = createSlice({
     name: "cart",
     initialState: {
@@ -79,12 +80,12 @@ export const CartSlice = createSlice({
             // index find karna padega :
             const index = state.items.findIndex(item => item.id == action.payload.id)
             state.items.splice(index, 1);
-        }).addCase(deleteAllItemsInBasketAsync.pending, (state) => {
+        }).addCase(resetCart.pending, (state) => {
             state.status = "loading"
-        }).addCase(deleteAllItemsInBasketAsync.fulfilled, (state, action) => {
+        }).addCase(resetCart.fulfilled, (state, action) => {
             state.status = "idle"
             // index find karna padega :
-            state.items.filter(item => item.user == action.payload.id)
+            state.items = []
         })
     }
 

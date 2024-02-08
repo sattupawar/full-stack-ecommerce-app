@@ -24,8 +24,8 @@ const navigation = [
   { name: "Reports", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", link: "/admin" },
-  { name: "Settings", link: "#" },
+  { name: "My Profile", link: "/profile" },
+  { name: "My Orders", link: "/orders" },
   { name: "Sign out", link: "/login" },
 ];
 
@@ -100,10 +100,10 @@ export const NavBar = ({ children }) => {
                         </button>
                       </Link>
                       {item.length > 0 && (
-                      <span className="inline-flex items-center rounded-md mb-5 -ml-3 z-10 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                        {item.length}
-                      </span>
-                    )}
+                        <span className="inline-flex items-center rounded-md mb-5 -ml-3 z-10 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                          {item.length}
+                        </span>
+                      )}
 
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">

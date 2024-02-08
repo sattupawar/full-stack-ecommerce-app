@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import {
-  deleteAllItemsInBasketAsync,
-  deleteBasketAsync,
+   deleteBasketAsync,
   updateBasketAsync,
 } from "../features/cart/CartSlice";
 import { useForm } from "react-hook-form";
@@ -67,9 +66,7 @@ export const Checkout = () => {
       alert("please enter address and Payment method");
     }
 
-    if (orderPlace) {
-      dispatch(deleteAllItemsInBasketAsync(user.id));
-    }
+  
 
     // ab jese hee user ne order place kiya :
     //! todo :  kuch cheeze honi chaiye :

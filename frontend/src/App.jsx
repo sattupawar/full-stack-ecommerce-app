@@ -15,6 +15,10 @@ import { fetchBasketByIdAsync } from "./features/cart/CartSlice.js";
 import Admin, { AdminPage } from "./Pages/AdminPage.jsx";
 import PageNotFound from "./Pages/pageNotFound.jsx";
 import { OrderSuccessPage } from "./Pages/OrderSuccessPage.jsx";
+import UserOrders from "./features/user/components/UserOrders.jsx";
+import UserOrderPage from "./Pages/UserOrderPage.jsx";
+import UserProfile from "./features/user/components/UserProfile.jsx";
+import UserProfilePage from "./Pages/UserProfilePage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -69,6 +73,22 @@ const router = createBrowserRouter([
     element: (
       <ProtectedChild>
         <OrderSuccessPage />
+      </ProtectedChild>
+    ),
+  },
+  {
+    path: "/orders",
+    element: (
+      <ProtectedChild>
+        <UserOrderPage />
+      </ProtectedChild>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <ProtectedChild>
+        <UserProfilePage />
       </ProtectedChild>
     ),
   },
