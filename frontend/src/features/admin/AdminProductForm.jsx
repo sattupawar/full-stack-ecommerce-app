@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProductAsync,
+  fetchProductByIdAsync,
   selectProductBrands,
+  selectProductById,
   selectProductCategory,
 } from "../productList/ProductSlice";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 const AdminProductForm = () => {
   const brands = useSelector(selectProductBrands);
@@ -15,9 +18,34 @@ const AdminProductForm = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
+  const params = useParams();
+  const selectProduct = useSelector(selectProductById);
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchProductByIdAsync(params.id));
+    }
+  }, [params.id, dispatch]);
+  useEffect(() => {
+    if (selectProduct) {
+      setValue("title", selectProduct.title);
+      setValue("description", selectProduct.description);
+      setValue("price", selectProduct.price);
+      setValue("discountPercentage", selectProduct.discountPercentage);
+      setValue("stock", selectProduct.stock);
+      setValue("brand", selectProduct.brand);
+      setValue("category", selectProduct.category);
+      setValue("thumbnail", selectProduct.thumbnail);
+      setValue("rating", selectProduct.rating);
+      setValue("image1", selectProduct.images[0]);
+      setValue("image2", selectProduct.images[1]);
+      setValue("image3", selectProduct.images[2]);
+    }
+  }, [selectProduct, setValue]);
   return (
     <form
       onSubmit={handleSubmit((data) => {

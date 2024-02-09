@@ -110,5 +110,5 @@ export const ProductSlice = createSlice({
 export const { increment, decrement, incrementByAmount } = ProductSlice.actions;
 export const selectProductBrands = (state) => state.Products.brands
 export const selectProductCategory = (state) => state.Products.category
-
+export const selectProductById = (state) => state.Products.selectedProduct;
 export default ProductSlice.reducer;

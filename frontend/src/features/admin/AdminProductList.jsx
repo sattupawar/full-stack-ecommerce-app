@@ -88,7 +88,7 @@ const AdminProductList = () => {
   useEffect(() => {
     const pagination = { _page: page, _limit: ItemPerPage };
     dispatch(fetchProductsFilterAsync({ filter, sort, pagination }));
-  }, [dispatch, filter, sort, page,products]);
+  }, [dispatch, filter, sort, page, products]);
 
   useEffect(() => {
     setPage(1);
@@ -487,7 +487,10 @@ const ProductGrid = ({ products, filters }) => {
     <>
       <div className="lg:col-span-3">
         <div>
-          <Link to="/admin/product-form" className="rounded-md mx-8 bg-green-700 my-5 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <Link
+            to="/admin/product-form"
+            className="rounded-md mx-8 bg-green-700 my-5 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
             Add New Product{" "}
           </Link>
         </div>
@@ -532,9 +535,12 @@ const ProductGrid = ({ products, filters }) => {
                         </div>
                       </div>
                       <div>
-                        <button className="rounded-md mt-2 bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        <Link
+                          to={`/admin/product-form/edit/${product.id}`}
+                          className="rounded-md mt-2 bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
                           Edit Product
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </Link>
