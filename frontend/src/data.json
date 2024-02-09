@@ -48,9 +48,7 @@
       "brand": "Samsung",
       "category": "smartphones",
       "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
-      "images": [
-        "https://cdn.dummyjson.com/product-images/3/1.jpg"
-      ]
+      "images": ["https://cdn.dummyjson.com/product-images/3/1.jpg"]
     },
     {
       "id": 4,
@@ -1428,9 +1426,7 @@
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://cdn.dummyjson.com/product-images/78/thumbnail.jpg",
-      "images": [
-        "https://cdn.dummyjson.com/product-images/78/thumbnail.jpg"
-      ]
+      "images": ["https://cdn.dummyjson.com/product-images/78/thumbnail.jpg"]
     },
     {
       "id": 79,
@@ -1443,9 +1439,7 @@
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://cdn.dummyjson.com/product-images/79/thumbnail.jpg",
-      "images": [
-        "https://cdn.dummyjson.com/product-images/79/1.jpg"
-      ]
+      "images": ["https://cdn.dummyjson.com/product-images/79/1.jpg"]
     },
     {
       "id": 80,
@@ -1838,6 +1832,26 @@
         "https://cdn.dummyjson.com/product-images/100/3.jpg",
         "https://cdn.dummyjson.com/product-images/100/thumbnail.jpg"
       ]
+    },
+    
+    {
+      "title": "apple watch ",
+      "description": "apple watch\n\n",
+      "price": 4000,
+      "discountPercentage": "40",
+      "stock": 10,
+      "brand": "Apple",
+      "category": "smartphones",
+      "thumbnail": "https://www.bhphotovideo.com/images/images2500x2500/apple_mlld2ll_a_watch_smartwatch_38mm_stainless_1187207.jpg",
+      "images": [
+        "https://www.bhphotovideo.com/images/images2500x2500/apple_mlld2ll_a_watch_smartwatch_38mm_stainless_1187207.jpg",
+        "https://www.bhphotovideo.com/images/images2500x2500/apple_mlld2ll_a_watch_smartwatch_38mm_stainless_1187207.jpg",
+        "https://www.bhphotovideo.com/images/images2500x2500/apple_mlld2ll_a_watch_smartwatch_38mm_stainless_1187207.jpg",
+        "https://www.bhphotovideo.com/images/images2500x2500/apple_mlld2ll_a_watch_smartwatch_38mm_stainless_1187207.jpg"
+      ],
+      "rating": 0,
+      "discount": null,
+      "id": 101
     }
   ],
   "category": [
@@ -2338,6 +2352,7 @@
     {
       "email": "satyampawar0070@gmail.com",
       "password": "S@tyam101",
+      "role": "user",
       "addresses": [
         {
           "fullname": "satyam mukeshbhai pawar",
@@ -2355,6 +2370,7 @@
     {
       "email": "mukeshbhai@gmail.com",
       "password": "Mukeshbh@i101",
+      "role": "admin",
       "addresses": [
         {
           "fullname": "klfsdj",

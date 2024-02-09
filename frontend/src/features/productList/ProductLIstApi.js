@@ -67,4 +67,19 @@ export function fetchProductsbyId(id) {
         const data = await response.json()
         resolve({ data })
     })
+
+}
+
+
+export function createProduct(product) {
+    return new Promise(async (resolve) => {
+        const response = await fetch("http://localhost:8080/products/", {
+            method: "POST",
+            body: JSON.stringify(product),
+            headers: { "content-type": "application/json" }
+        });
+        const data = await response.json()
+        resolve({ data })
+    })
+
 }

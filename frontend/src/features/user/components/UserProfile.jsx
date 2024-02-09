@@ -13,6 +13,11 @@ const UserProfile = () => {
         <p className="text-gray-700 text-base mt-3 ml-2">
           Email : {user.email}
         </p>
+        {user.role === "admin" && (
+          <p className="text-gray-700 text-base mt-3 ml-2">
+            Email : {user.role}
+          </p>
+        )}
       </h1>
 
       <div className="max-w-md mx-auto bg-white shadow-md rounded-md overflow-hidden">
