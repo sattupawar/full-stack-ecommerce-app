@@ -521,6 +521,11 @@ const ProductGrid = ({ products, filters }) => {
                           Price: ${product.price}
                         </p>
                       </div>
+                      {product.deleted && (
+                        <div>
+                          <p className="text-red-700">Product Deleted</p>
+                        </div>
+                      )}
                     </div>
                   </Link>
                 </div>

@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearSelectedProduct,
   createProductAsync,
   fetchProductByIdAsync,
   selectProductBrands,
   selectProductById,
   selectProductCategory,
+  updateProductByIdAsync,
 } from "../productList/ProductSlice";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -19,19 +21,29 @@ const AdminProductForm = () => {
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
   const params = useParams();
   const selectProduct = useSelector(selectProductById);
 
+  const handleDelete = () => {
+    const product = { ...selectProduct };
+    product.deleted = true;
+    dispatch(updateProductByIdAsync(product));
+    reset();
+  };
+
   useEffect(() => {
     if (params.id) {
       dispatch(fetchProductByIdAsync(params.id));
+    } else {
+      dispatch(clearSelectedProduct());
     }
   }, [params.id, dispatch]);
   useEffect(() => {
-    if (selectProduct) {
+    if (selectProduct && params.id) {
       setValue("title", selectProduct.title);
       setValue("description", selectProduct.description);
       setValue("price", selectProduct.price);
@@ -56,15 +68,25 @@ const AdminProductForm = () => {
           product.image3,
           product.thumbnail,
         ];
-        product.rating = 0;
-        product.price = parseInt(product.price); // Convert price to number
-        product.discountPercentage = parseInt(product.discountPercentage);
-        product.stock = parseInt(product.stock);
+        product.price = parseFloat(product.price); // Convert price to number
+        product.discountPercentage = parseFloat(product.discountPercentage);
+        product.stock = parseFloat(product.stock);
         delete product["image1"];
         delete product["image2"];
         delete product["image3"];
 
-        dispatch(createProductAsync(product));
+        // product update hone k baad form ko reset karna hain :
+        if (params.id) {
+          // agar product ka rating hai to vo aa jaye other wise 0 ho jaye :
+          product.id = params.id;
+          product.rating = selectProduct.rating || 0;
+          dispatch(updateProductByIdAsync(product));
+          reset();
+        } else {
+          dispatch(createProductAsync(product));
+          // after creating product then again form ko reset karna padega :
+          reset();
+        }
         console.log(product);
       })}
     >
@@ -152,7 +174,7 @@ const AdminProductForm = () => {
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   <input
-                    type="number"
+                    type="text"
                     {...register("discountPercentage", {
                       required: "discountPercentage is required",
                       min: 0,
@@ -326,6 +348,15 @@ const AdminProductForm = () => {
         >
           Cancel
         </button>
+        {selectProduct && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            delete
+          </button>
+        )}
         <button
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

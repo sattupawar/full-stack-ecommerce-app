@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createProduct, fetchAllProductBrands, fetchAllProductCategory, fetchProducts, fetchProductsFilter, fetchProductsbyId } from "./ProductLIstApi";
+import { createProduct, fetchAllProductBrands, fetchAllProductCategory, fetchProducts, fetchProductsFilter, fetchProductsbyId, updateProductById } from "./ProductLIstApi";
 
 export const incrementAsync = createAsyncThunk("counter/fetchCount", async (amount) => {
     const response = await fetchCount(amount);
@@ -37,6 +37,10 @@ export const createProductAsync = createAsyncThunk("productName/createProduct", 
     return response.data
 })
 
+export const updateProductByIdAsync = createAsyncThunk("productName/updateProductById", async (product) => {
+    const response = await updateProductById(product);
+    return response.data
+})
 
 export const ProductSlice = createSlice({
     name: "productName",
@@ -49,6 +53,9 @@ export const ProductSlice = createSlice({
     },
     reducers: {
 
+        clearSelectedProduct: (state, action) => {
+            state.selectedProduct = null;
+        },
         increment: state => {
             state.value += 1
         },
@@ -102,12 +109,19 @@ export const ProductSlice = createSlice({
             state.list.push(action.payload);
 
 
+        }).addCase(updateProductByIdAsync.pending, (state) => {
+            state.status = "loading"
+        }).addCase(updateProductByIdAsync.fulfilled, (state, action) => {
+            state.status = "idle"
+            const index = state.list.findIndex(product => product.id === action.payload.id)
+            state.list[index] = action.payload
+
         })
     }
 
 })
 
-export const { increment, decrement, incrementByAmount } = ProductSlice.actions;
+export const { increment, decrement, incrementByAmount, clearSelectedProduct} = ProductSlice.actions;
 export const selectProductBrands = (state) => state.Products.brands
 export const selectProductCategory = (state) => state.Products.category
 export const selectProductById = (state) => state.Products.selectedProduct;

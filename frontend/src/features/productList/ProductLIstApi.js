@@ -15,11 +15,13 @@ export function fetchProductsFilter(filter, sort, pagination) {
 
     //! for loop lagane ka main mahatv ek proper object ki key and value ko access kar sake isliey 
     //! Todo : on server  we will support multiple values :
+    // ! Todo : server will filter deleted products in case non-admin only send admin not buyer
 
     // lastCategoryValues :
     // filter={"category":["smartphones","laptops"]}
     // sort={_sort:"price",_order:"desc"}
     // pagination={_page:1,_limit:10}
+    // 
     for (let key in filter) {
         const categoryValues = filter[key]
         if (categoryValues.length) {
@@ -81,5 +83,18 @@ export function createProduct(product) {
         const data = await response.json()
         resolve({ data })
     })
+}
 
+export function updateProductById(update) {
+    return new Promise(async (resolve) => {
+        const response = await fetch("http://localhost:8080/products/" + update.id, {
+            method: "PATCH",
+            body: JSON.stringify(update),
+            headers: { "content-type": "application/json" }
+        });
+        const data = await response.json()
+
+        // ! Todo : on server it will only return relavent informtation  of user (not store the user password)
+        resolve({ data })
+    })
 }
